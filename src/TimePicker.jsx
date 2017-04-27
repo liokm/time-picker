@@ -229,18 +229,33 @@ class Picker extends Component {
         onPopupVisibleChange={this.onVisibleChange}
       >
         <span className={`${prefixCls} ${className}`} style={style}>
-          <input
-            className={`${prefixCls}-input`}
-            ref={this.saveInputRef}
-            type="text"
-            placeholder={placeholder}
-            name={name}
-            readOnly
-            onKeyDown={this.onKeyDown}
-            disabled={disabled} value={value && value.format(this.getFormat()) || ''}
-            autoComplete={autoComplete}
-          />
-          <span className={`${prefixCls}-icon`}/>
+          {
+            typeof this.props.children === 'function' ?
+            this.props.children({
+              className: `${prefixCls}-input`,
+              prefixCls,
+              ref: this.saveInputRef,
+              placeholder,
+              name,
+              onKeyDown: this.onKeyDown,
+              disabled,
+              value: value && value.format(this.getFormat()) || '',
+              autoComplete,
+            }) : (
+              <input
+                className={`${prefixCls}-input`}
+                ref={this.saveInputRef}
+                type="text"
+                placeholder={placeholder}
+                name={name}
+                readOnly
+                onKeyDown={this.onKeyDown}
+                disabled={disabled} value={value && value.format(this.getFormat()) || ''}
+                autoComplete={autoComplete}
+              />
+              <span className={`${prefixCls}-icon`}/>
+            )
+          }
         </span>
       </Trigger>
     );
